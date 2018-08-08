@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:visibility="gone"
+    android:background="@color/app_background"
     >
 
     <include layout="@layout/toolbar_custom"/>
@@ -52,6 +52,82 @@
                 android:fontFamily="@font/roboto_regular"/>
 
         </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llSongsCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All Songs "
+                android:textColor="@color/dark_gray"
+                android:textSize="13sp"
+                android:fontFamily="@font/roboto_regular"
+                android:letterSpacing=".05"
+                />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="2dp"
+                android:background="@color/dark_gray"
+                android:layout_marginLeft="4dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_regular"
+                android:letterSpacing=".05"
+                />
+
+            <TextView
+                android:id="@+id/tvSongsCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  24"
+                android:textColor="@color/dark_gray"
+                android:textSize="13sp"
+                android:fontFamily="@font/roboto_regular"
+                android:letterSpacing=".05"
+                />
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPagerItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/llSongsCount"
+            android:layout_marginTop="8dp"
+            android:layout_above="@+id/llIndicators">
+
+
+        </android.support.v4.view.ViewPager>
+
+        <LinearLayout
+            android:id="@+id/llIndicators"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_alignParentBottom="true">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="8dp"
+                android:src="@drawable/rectangle_4"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="8dp"
+                android:src="@drawable/rectangle_4_copy"/>
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>
