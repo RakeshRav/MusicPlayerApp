@@ -19,6 +19,9 @@
 
         </activity>
         <activity android:name=".ui.player.PlayerActivity">
+
+        </activity>
+        <activity android:name=".ui.favouriteList.FavouriteActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -23,6 +23,9 @@ import com.example.rakeshrav.musicplayer.data.network.ApiHelper;
 import com.example.rakeshrav.musicplayer.data.network.AppApiHelper;
 import com.example.rakeshrav.musicplayer.di.ActivityContext;
 import com.example.rakeshrav.musicplayer.di.PerActivity;
+import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouriteMvpPresenter;
+import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouritePresenter;
+import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouriteView;
 import com.example.rakeshrav.musicplayer.ui.main.MainMvpPresenter;
 import com.example.rakeshrav.musicplayer.ui.main.MainMvpView;
 import com.example.rakeshrav.musicplayer.ui.main.MainPresenter;
@@ -89,6 +92,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     PlayerMvpPresenter<PlayerView> providesPlayerPresenter(PlayerPresenter<PlayerView> playerPresenter){
+        return playerPresenter;
+    }
+
+    @Provides
+    @PerActivity
+    FavouriteMvpPresenter<FavouriteView> providesFavouritePresenter(FavouritePresenter<FavouriteView> playerPresenter){
         return playerPresenter;
     }
 

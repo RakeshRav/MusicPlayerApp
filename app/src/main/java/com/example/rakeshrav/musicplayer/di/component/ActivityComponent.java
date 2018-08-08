@@ -17,6 +17,7 @@ package com.example.rakeshrav.musicplayer.di.component;
 
 import com.example.rakeshrav.musicplayer.di.PerActivity;
 import com.example.rakeshrav.musicplayer.di.module.ActivityModule;
+import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouriteActivity;
 import com.example.rakeshrav.musicplayer.ui.main.MainActivity;
 import com.example.rakeshrav.musicplayer.ui.player.PlayerActivity;
 import com.example.rakeshrav.musicplayer.ui.splash.SplashActivity;
@@ -36,5 +37,7 @@ public interface ActivityComponent {
     void inject(SplashActivity activity);
 
     void inject(PlayerActivity activity);
+
+    void inject(FavouriteActivity activity);
 
 }
