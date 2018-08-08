@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="80dp"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Today"
+        android:textColor="@color/head_text_color"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp" />
+
+    <TextView
+        android:id="@+id/tvAvgTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24 C"
+        android:textColor="@color/head_text_color"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_gray"
+        />
+
+</RelativeLayout>

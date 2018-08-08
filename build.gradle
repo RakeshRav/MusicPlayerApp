@@ -25,3 +25,31 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// Define versions in a single place
+ext {
+    buildToolsVersion = '25.0.2'
+
+    // App dependencies
+    supportLibraryVersion = '25.3.1'
+    gsonVersion = '2.8.0'
+
+    retroFitNetworking = '1.9.0'
+    okHttp = '2.4.0'
+
+    dagger2Version = '2.8'
+    rxjava2Version = '2.0.6'
+    rxandroidVersion = '2.0.1'
+    butterKnifeVersion = '8.6.0'
+
+    //Test dependencies
+    junitVersion = '4.12'
+    espressoVersion = '2.2.2'
+    mockitoVersion = '2.7.1'
+
+    tedPermission = '2.2.0'
+    googleLocation = '15.0.1'
+
+    aviLibrary = '2.1.3'
+
+}
