@@ -35,7 +35,7 @@ public class AppApiHelper implements ApiHelper {
 
 
     @Override
-    public void getSongsList(String searchTerm, String limit, Callback<ItunesData> callback) {
+    public void getSongsList(String searchTerm, String limit,String media, Callback<ItunesData> callback) {
 
     }
 }

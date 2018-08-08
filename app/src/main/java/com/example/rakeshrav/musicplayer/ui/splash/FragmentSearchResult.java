@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +13,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.rakeshrav.musicplayer.R;
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.Result;
 import com.example.rakeshrav.musicplayer.utility.ViewUtils;
 
-import java.util.zip.Inflater;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,16 +25,17 @@ import butterknife.Unbinder;
 public class FragmentSearchResult extends Fragment {
 
     private static final String TAG = FragmentSearchResult.class.getSimpleName();
-    @BindView(R.id.llSearchResults)
-    LinearLayout llSearchResults;
     Unbinder unbinder;
+    @BindView(R.id.rvItems)
+    RecyclerView rvItems;
     private View rootView;
     int itemCount;
+    private ArrayList<Result> results;
 
-    public static FragmentSearchResult getInstance(int itemCount) {
+    public static FragmentSearchResult getInstance(int itemCount, ArrayList<Result> results) {
         FragmentSearchResult fragmentSearchResult = new FragmentSearchResult();
         fragmentSearchResult.itemCount = itemCount;
-
+        fragmentSearchResult.results = results;
         return fragmentSearchResult;
     }
 
@@ -47,22 +51,15 @@ public class FragmentSearchResult extends Fragment {
             public void run() {
                 setViewInLL();
             }
-        },500);
+        }, 500);
         return rootView;
     }
 
     private void setViewInLL() {
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        rvItems.setLayoutManager(manager);
 
-        llSearchResults.removeAllViews();
-
-        for (int i = 0; i < itemCount; i++){
-            Log.d(TAG,"i = "+i);
-            View itemView = LayoutInflater.from(getContext()).inflate(R.layout.item_song, null, false);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewUtils.dpToPx(70));
-            itemView.setLayoutParams(params);
-
-            llSearchResults.addView(itemView);
-        }
+        rvItems.setAdapter(new AdapterSongs(getContext(), results));
     }
 
     @Override

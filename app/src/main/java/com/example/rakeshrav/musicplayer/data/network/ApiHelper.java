@@ -30,5 +30,6 @@ public interface ApiHelper {
     @GET("/search")
     void getSongsList(@Query("term") String searchTerm,
                                     @Query("limit") String limit,
+                                    @Query("media") String music,
                                     Callback<ItunesData> callback);
 }

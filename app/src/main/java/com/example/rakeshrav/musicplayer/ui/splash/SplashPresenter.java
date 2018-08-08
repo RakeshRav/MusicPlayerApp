@@ -27,12 +27,14 @@ public class SplashPresenter<V extends SplashView> extends BasePresenter<V> impl
     }
 
     @Override
-    public void getSongList(String term, int limit) {
-        RestClient.getApiServicePojo().getSongsList("we don't talk", "4",
+    public void getSongList(String term, String limit) {
+        RestClient.getApiServicePojo().getSongsList(term, String.valueOf(limit),
+                "music",
                 new Callback<ItunesData>() {
                     @Override
                     public void success(ItunesData itunesData, Response response) {
                         Log.d(TAG,"Success songs list : "+new Gson().toJson(itunesData));
+                        getMvpView().populateData(itunesData);
                     }
 
                     @Override

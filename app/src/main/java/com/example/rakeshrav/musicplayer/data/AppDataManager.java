@@ -71,7 +71,7 @@ public class AppDataManager implements DataManager {
 //    }
 
     @Override
-    public void getSongsList(String searchTerm, String limit, Callback<ItunesData> callback) {
+    public void getSongsList(String searchTerm, String limit, String music,Callback<ItunesData> callback) {
 
     }
 }

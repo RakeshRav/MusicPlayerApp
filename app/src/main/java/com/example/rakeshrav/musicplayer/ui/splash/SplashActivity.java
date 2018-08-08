@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -20,9 +21,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.rakeshrav.musicplayer.R;
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.ItunesData;
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.Result;
 import com.example.rakeshrav.musicplayer.ui.base.BaseActivity;
 import com.example.rakeshrav.musicplayer.utility.ScreenUtils;
 import com.example.rakeshrav.musicplayer.utility.ViewUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -64,6 +70,8 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @BindView(R.id.llIndicators)
     LinearLayout llIndicators;
     int numberItemToFit = 0;
+    int currentIndicator = 0;
+    int prevIndicator = 0;
     private SearchResultsPagerAdapter pagerAdapter;
     private int sizeToolbar = 60;
     private int sizeSearch = 60;
@@ -92,7 +100,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
         calculateListSize();
         setUp();
 
-        mPresenter.getSongList("",1);
+        mPresenter.getSongList("We don't talk", "");
     }
 
     private void calculateListSize() {
@@ -124,9 +132,6 @@ public class SplashActivity extends BaseActivity implements SplashView {
                 cvSearchSplash.startAnimation(animation);
             }
         }, 2000);
-
-                pagerAdapter = new SearchResultsPagerAdapter(getSupportFragmentManager());
-                viewPagerItems.setAdapter(pagerAdapter);
     }
 
     @OnClick(R.id.cvSearchSplash)
@@ -164,19 +169,121 @@ public class SplashActivity extends BaseActivity implements SplashView {
         llMainActivity.startAnimation(fadein);
     }
 
+    @Override
+    public void populateData(ItunesData itunesData) {
+
+        if (itunesData.getResultCount() > 0) {
+
+            int pages = itunesData.getResultCount() / numberItemToFit;
+
+            if (itunesData.getResultCount() % numberItemToFit != 0) {
+                pages++;
+            }
+
+            Log.d(TAG, "pages : " + pages);
+            makeBottomBar(pages);
+
+            viewPagerItems.setVisibility(View.VISIBLE);
+            viewPagerItems.setOffscreenPageLimit(pages);
+            pagerAdapter = new SearchResultsPagerAdapter(getSupportFragmentManager(), pages, itunesData);
+            viewPagerItems.setAdapter(pagerAdapter);
+
+            viewPagerItems.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    updateIndicators(position);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+
+        } else {
+            Snackbar.make(llMainActivity, "No Results found!", 2000);
+        }
+    }
+
+    private void makeBottomBar(int pages) {
+        llIndicators.removeAllViews();
+
+        for (int i = 0; i < pages; i++) {
+            ImageView imageView = new ImageView(this);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewUtils.dpToPx(30), ViewUtils.dpToPx(30));
+            imageView.setLayoutParams(params);
+
+            if (i == 0) {
+                imageView.setImageResource(R.drawable.rectangle_4);
+            } else {
+                imageView.setImageResource(R.drawable.rectangle_4_copy);
+            }
+
+            imageView.setPadding(ViewUtils.dpToPx(4), 0, ViewUtils.dpToPx(4), 0);
+
+            llIndicators.addView(imageView);
+        }
+    }
+
+    private void updateIndicators(int pos) {
+
+        prevIndicator = currentIndicator;
+        currentIndicator = pos;
+
+        ImageView imageView = (ImageView) llIndicators.getChildAt(prevIndicator);
+        imageView.setImageResource(R.drawable.rectangle_4_copy);
+
+        ImageView imageViewCurr = (ImageView) llIndicators.getChildAt(currentIndicator);
+        imageViewCurr.setImageResource(R.drawable.rectangle_4);
+    }
+
     private class SearchResultsPagerAdapter extends FragmentStatePagerAdapter {
-        public SearchResultsPagerAdapter(FragmentManager fm) {
+
+        private int pages;
+        private ItunesData itunesData;
+        private int start = 0;
+
+        public SearchResultsPagerAdapter(FragmentManager fm, int pages, ItunesData itunesData) {
             super(fm);
+            this.pages = pages;
+            this.itunesData  = itunesData;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return FragmentSearchResult.getInstance(numberItemToFit);
+
+            ArrayList<Result> results = getListItems();
+            return FragmentSearchResult.getInstance(numberItemToFit, results);
+        }
+
+        ArrayList<Result> getListItems() {
+
+            ArrayList<Result> results = new ArrayList<>();
+
+            List<Result> itunesResult = itunesData.getResults();
+
+            int end = numberItemToFit+start;
+
+            if (end > itunesResult.size()){
+                end = itunesResult.size();
+            }
+
+            for (int i = start; i < end; i++) {
+                results.add(itunesResult.get(start));
+                start++;
+            }
+            return results;
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return pages;
         }
     }
 }
