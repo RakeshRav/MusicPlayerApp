@@ -2,28 +2,22 @@ package com.example.rakeshrav.musicplayer.ui.player;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.rakeshrav.musicplayer.R;
 import com.example.rakeshrav.musicplayer.ui.base.BaseActivity;
-import com.example.rakeshrav.musicplayer.ui.splash.FragmentSearchResult;
-import com.example.rakeshrav.musicplayer.utility.ScreenUtils;
-import com.example.rakeshrav.musicplayer.utility.ViewUtils;
+import com.example.rakeshrav.musicplayer.utility.CommonUtils;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -34,9 +28,39 @@ import butterknife.OnClick;
 public class PlayerActivity extends BaseActivity implements PlayerView {
 
     private static final String TAG = PlayerActivity.class.getSimpleName();
+    @BindView(R.id.ivAction)
+    ImageView ivAction;
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+    @BindView(R.id.ivFav)
+    ImageView ivFav;
+    @BindView(R.id.ivCover)
+    ImageView ivCover;
+    @BindView(R.id.seekBar)
+    SeekBar seekBar;
+    @BindView(R.id.tvStartTime)
+    TextView tvStartTime;
+    @BindView(R.id.tvEndTime)
+    TextView tvEndTime;
+    @BindView(R.id.tvSongName)
+    TextView tvSongName;
+    @BindView(R.id.tvArtistName)
+    TextView tvArtistName;
+    @BindView(R.id.tvAlbumName)
+    TextView tvAlbumName;
+    @BindView(R.id.ivList)
+    ImageView ivList;
+    @BindView(R.id.ivPlayer)
+    ImageView ivPlayer;
+    @BindView(R.id.ivFavourite)
+    ImageView ivFavourite;
+
+    private String songUrl = "https://audio-ssl.itunes.apple.com/apple-assets-us-std-000001/Music69/v4/e4/6a/bd/e46abd0d-0732-ae08-e89f-6c93a18dacc0/mzaf_1827991663826163479.plus.aac.p.m4a";
 
     @Inject
     PlayerMvpPresenter<PlayerView> mPresenter;
+
+    private MediaPlayer mMediaPlayer;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, PlayerActivity.class);
@@ -62,6 +86,140 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
     @Override
     protected void setUp() {
 
+        setupMediaPlayer();
     }
 
+    private void setupMediaPlayer() {
+        Log.d(TAG, "Setting Media Player");
+
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        try {
+            mMediaPlayer.setDataSource(songUrl);
+            mMediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            Log.d(TAG, "excep :  " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                Log.d(TAG, "media player prepared");
+                seekBar.setMax(100);
+                seekBar.setProgress(0);
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        mHandler.removeCallbacks(mUpdateTimeTask);
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        stopTrackingTouch(seekBar);
+                    }
+                });
+
+                updateProgressBar();
+                toggleButtons();
+            }
+        });
+
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                Log.d(TAG, "Song  completed");
+                ivPlayer.setImageResource(R.drawable.triangle);
+            }
+        });
+    }
+
+    private void toggleButtons() {
+        if (mMediaPlayer.isPlaying()) {
+            mMediaPlayer.pause();
+            ivPlayer.setImageResource(R.drawable.triangle);
+        } else {
+            mMediaPlayer.start();
+            ivPlayer.setImageResource(R.drawable.combined_shape_2);
+        }
+    }
+
+
+    private Handler mHandler = new Handler();;
+    public void updateProgressBar() {
+        mHandler.postDelayed(mUpdateTimeTask, 100);
+    }
+
+    /**
+     * Background Runnable thread
+     * */
+    private Runnable mUpdateTimeTask = new Runnable() {
+        public void run() {
+            long totalDuration = mMediaPlayer.getDuration();
+            long currentDuration = mMediaPlayer.getCurrentPosition();
+
+            // Displaying Total Duration time
+            tvEndTime.setText(""+ CommonUtils.milliSecondsToTimer(totalDuration));
+            // Displaying time completed playing
+            tvStartTime.setText(""+CommonUtils.milliSecondsToTimer(currentDuration));
+
+            // Updating progress bar
+            int progress = (int)(CommonUtils.getProgressPercentage(currentDuration, totalDuration));
+            //Log.d("Progress", ""+progress);
+            seekBar.setProgress(progress);
+
+            // Running this thread after 100 milliseconds
+            mHandler.postDelayed(this, 100);
+        }
+    };
+
+    /**
+     * When user stops moving the progress hanlder
+     * */
+    public void stopTrackingTouch(SeekBar seekBar) {
+        mHandler.removeCallbacks(mUpdateTimeTask);
+        int totalDuration = mMediaPlayer.getDuration();
+        int currentPosition = CommonUtils.progressToTimer(seekBar.getProgress(), totalDuration);
+
+        // forward or backward to certain seconds
+        mMediaPlayer.seekTo(currentPosition);
+
+        // update timer progress again
+        updateProgressBar();
+    }
+
+    @OnClick({R.id.ivAction, R.id.ivFav, R.id.ivList, R.id.rlPlayer, R.id.ivFavourite})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ivAction:
+                break;
+            case R.id.ivFav:
+                break;
+            case R.id.ivList:
+                break;
+            case R.id.rlPlayer:
+                toggleButtons();
+                break;
+            case R.id.ivFavourite:
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mMediaPlayer != null) {
+            if (mMediaPlayer.isPlaying()) {
+                mMediaPlayer.stop();
+            }
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+        super.onDestroy();
+    }
 }
