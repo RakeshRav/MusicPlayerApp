@@ -16,6 +16,11 @@
 package com.example.rakeshrav.musicplayer.data.prefs;
 
 
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.ItunesData;
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.Result;
+
+import java.util.ArrayList;
+
 /**
  * Created by rao on .
  */
@@ -30,5 +35,9 @@ public interface PreferencesHelper {
 //    ForecastData getForecastReport();
 //
 //    void setForecastReport(ForecastData forecastReport);
+
+    ItunesData getFavsResult();
+
+    void setFavsResult(ItunesData results);
 
 }

@@ -57,6 +57,7 @@ dependencies {
     implementation "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
 
+    implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
     implementation "gun0912.ted:tedpermission:$rootProject.tedPermission"
 

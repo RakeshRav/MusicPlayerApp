@@ -39,7 +39,6 @@ import butterknife.OnClick;
 public class SplashActivity extends BaseActivity implements SplashView {
 
     private static final String TAG = SplashActivity.class.getSimpleName();
-    int listSize = 24;
 
     @Inject
     SplashMvpPresenter<SplashView> mPresenter;
@@ -173,6 +172,8 @@ public class SplashActivity extends BaseActivity implements SplashView {
     public void populateData(ItunesData itunesData) {
 
         if (itunesData.getResultCount() > 0) {
+
+            tvSongsCount.setText("  "+String.valueOf(itunesData.getResultCount()));
 
             int pages = itunesData.getResultCount() / numberItemToFit;
 

@@ -4,7 +4,9 @@ package com.example.rakeshrav.musicplayer.data.network.model.itunesData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result{
 
     @SerializedName("wrapperType")
     @Expose
@@ -102,6 +104,15 @@ public class Result {
     @SerializedName("contentAdvisoryRating")
     @Expose
     private String contentAdvisoryRating;
+    boolean isFav;
+
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
+    }
 
     public String getWrapperType() {
         return wrapperType;

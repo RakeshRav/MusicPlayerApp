@@ -14,8 +14,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.rakeshrav.musicplayer.R;
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.Result;
 import com.example.rakeshrav.musicplayer.ui.base.BaseActivity;
+import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouriteActivity;
 import com.example.rakeshrav.musicplayer.utility.CommonUtils;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
@@ -28,6 +32,8 @@ import butterknife.OnClick;
 public class PlayerActivity extends BaseActivity implements PlayerView {
 
     private static final String TAG = PlayerActivity.class.getSimpleName();
+
+    public static final String RESULT = "currentResult";
     @BindView(R.id.ivAction)
     ImageView ivAction;
     @BindView(R.id.tvTitle)
@@ -55,7 +61,7 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
     @BindView(R.id.ivFavourite)
     ImageView ivFavourite;
 
-    private String songUrl = "https://audio-ssl.itunes.apple.com/apple-assets-us-std-000001/Music69/v4/e4/6a/bd/e46abd0d-0732-ae08-e89f-6c93a18dacc0/mzaf_1827991663826163479.plus.aac.p.m4a";
+//    private String songUrl = "https://audio-ssl.itunes.apple.com/apple-assets-us-std-000001/Music69/v4/e4/6a/bd/e46abd0d-0732-ae08-e89f-6c93a18dacc0/mzaf_1827991663826163479.plus.aac.p.m4a";
 
     @Inject
     PlayerMvpPresenter<PlayerView> mPresenter;
@@ -83,8 +89,27 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
     }
 
 
+    Result result;
     @Override
     protected void setUp() {
+
+        Intent intent = getIntent();
+
+        String resultJson = intent.getStringExtra(RESULT);
+
+        result = new Gson().fromJson(resultJson, Result.class);
+
+        Picasso.with(this).load(result.getArtworkUrl100()).fit().into(ivCover);
+
+        tvAlbumName.setText(result.getCollectionName());
+        tvArtistName.setText(result.getArtistName());
+        tvSongName.setText(result.getTrackName());
+
+        if (result.isFav()){
+         ivFavourite.setImageResource(R.drawable.shape_heart_red);
+        }else {
+            ivFavourite.setImageResource(R.drawable.shape_heart);
+        }
 
         setupMediaPlayer();
     }
@@ -96,7 +121,7 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         try {
-            mMediaPlayer.setDataSource(songUrl);
+            mMediaPlayer.setDataSource(result.getPreviewUrl());
             mMediaPlayer.prepareAsync();
         } catch (IOException e) {
             Log.d(TAG, "excep :  " + e.getMessage());
@@ -198,16 +223,36 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivAction:
+                finish();
                 break;
             case R.id.ivFav:
+                Intent intent = FavouriteActivity.getStartIntent(this);
+                startActivity(intent);
                 break;
             case R.id.ivList:
+                finish();
                 break;
             case R.id.rlPlayer:
                 toggleButtons();
                 break;
             case R.id.ivFavourite:
+                toggleImageView();
                 break;
+        }
+    }
+
+    private void toggleImageView() {
+        Log.d(TAG,"togggle results");
+        if (result.isFav()){
+            Log.d(TAG,"removing favs");
+            result.setFav(false);
+            ivFavourite.setImageResource(R.drawable.shape_heart);
+            mPresenter.removeFavSongs(result);
+        }else {
+            Log.d(TAG,"Adding favs");
+            result.setFav(true);
+            ivFavourite.setImageResource(R.drawable.shape_heart_red);
+            mPresenter.setFavSongs(result);
         }
     }
 
@@ -220,6 +265,7 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
+        mHandler.removeCallbacks(mUpdateTimeTask);
         super.onDestroy();
     }
 }

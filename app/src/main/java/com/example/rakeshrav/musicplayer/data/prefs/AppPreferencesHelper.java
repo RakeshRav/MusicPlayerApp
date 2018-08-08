@@ -19,9 +19,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.ItunesData;
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.Result;
 import com.example.rakeshrav.musicplayer.di.ApplicationContext;
 import com.example.rakeshrav.musicplayer.di.PreferenceInfo;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -35,7 +39,7 @@ import javax.inject.Singleton;
 public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String PREF_KEY_CURRENT_USER_NAME = "PREF_KEY_CURRENT_USER_NAME";
-    private static final String PREF_KEY_FORECAST_REPORT = "PREF_KEY_FORECAST_REPORT";
+    private static final String PREF_KEY_FAVS = "PREF_KEY_FAVS";
 
     private static Gson GSON = new Gson();
 
@@ -57,28 +61,28 @@ public class AppPreferencesHelper implements PreferencesHelper {
         mPrefs.edit().putString(PREF_KEY_CURRENT_USER_NAME, userName).apply();
     }
 
-//    @Override
-//    public ForecastData getForecastReport() {
-//        String gson = mPrefs.getString(PREF_KEY_FORECAST_REPORT, null);
-//        if (gson == null) {
-//            return null;
-//        } else {
-//            try {
-//                return GSON.fromJson(gson, ForecastData.class);
-//            } catch (Exception e) {
-//                throw new IllegalArgumentException("Object storaged with key "
-//                        + PREF_KEY_FORECAST_REPORT + " is instanceof other class");
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void setForecastReport(ForecastData object) {
-//        if (object == null) {
-//            throw new IllegalArgumentException("object is null");
-//        }
-//
-//        mPrefs.edit().putString(PREF_KEY_FORECAST_REPORT, GSON.toJson(object)).apply();
-//    }
+    @Override
+    public ItunesData getFavsResult() {
+        String gson = mPrefs.getString(PREF_KEY_FAVS, null);
+        if (gson == null) {
+            return null;
+        } else {
+            try {
+                return GSON.fromJson(gson, ItunesData.class);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Object storaged with key "
+                        + PREF_KEY_FAVS + " is instanceof other class");
+            }
+        }
+    }
+
+    @Override
+    public void setFavsResult(ItunesData object) {
+        if (object == null) {
+            throw new IllegalArgumentException("object is null");
+        }
+
+        mPrefs.edit().putString(PREF_KEY_FAVS, GSON.toJson(object)).apply();
+    }
 
 }

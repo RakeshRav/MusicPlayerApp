@@ -38,7 +38,7 @@
             android:id="@+id/tvSongsCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  24"
+            android:text="  "
             android:textColor="@color/dark_gray"
             android:textSize="13sp"
             android:fontFamily="@font/roboto_regular"

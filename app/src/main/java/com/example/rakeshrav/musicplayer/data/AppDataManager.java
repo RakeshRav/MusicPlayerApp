@@ -60,6 +60,16 @@ public class AppDataManager implements DataManager {
         mPreferencesHelper.setCurrentUserName(userName);
     }
 
+    @Override
+    public ItunesData getFavsResult() {
+        return mPreferencesHelper.getFavsResult();
+    }
+
+    @Override
+    public void setFavsResult(ItunesData results) {
+        mPreferencesHelper.setFavsResult(results);
+    }
+
 //    @Override
 //    public ForecastData getForecastReport() {
 //        return mPreferencesHelper.getForecastReport();
