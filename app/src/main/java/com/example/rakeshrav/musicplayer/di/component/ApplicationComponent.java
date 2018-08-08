@@ -37,8 +37,6 @@ public interface ApplicationComponent {
 
     void inject(MusicPlayerApp app);
 
-//    void inject(SyncService service);
-
     @ApplicationContext
     Context context();
 

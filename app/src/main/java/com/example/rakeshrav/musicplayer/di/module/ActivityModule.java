@@ -26,6 +26,9 @@ import com.example.rakeshrav.musicplayer.di.PerActivity;
 import com.example.rakeshrav.musicplayer.ui.main.MainMvpPresenter;
 import com.example.rakeshrav.musicplayer.ui.main.MainMvpView;
 import com.example.rakeshrav.musicplayer.ui.main.MainPresenter;
+import com.example.rakeshrav.musicplayer.ui.splash.SplashMvpPresenter;
+import com.example.rakeshrav.musicplayer.ui.splash.SplashPresenter;
+import com.example.rakeshrav.musicplayer.ui.splash.SplashView;
 
 import javax.inject.Singleton;
 
@@ -72,6 +75,12 @@ public class ActivityModule {
     @PerActivity
     MainMvpPresenter<MainMvpView> provideMainPresenter(MainPresenter<MainMvpView> mainPresenter){
         return mainPresenter;
+    }
+
+    @Provides
+    @PerActivity
+    SplashMvpPresenter<SplashView> providesSplashPresenter(SplashPresenter<SplashView> splashPresenter){
+        return splashPresenter;
     }
 
     @Provides
