@@ -16,6 +16,9 @@
         android:theme="@style/AppTheme"
         android:name=".MusicPlayerApp">
         <activity android:name=".ui.splash.SplashActivity">
+
+        </activity>
+        <activity android:name=".ui.player.PlayerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

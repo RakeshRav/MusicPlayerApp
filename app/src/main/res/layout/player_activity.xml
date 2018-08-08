@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/app_background">
+
+    <include layout="@layout/toolbar_custom"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="2">
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:maxHeight="20dp"
+                android:minHeight="8dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0:00"
+                    android:textColor="@color/gray"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:letterSpacing=".05"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3.40"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/gray"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:letterSpacing=".05"
+                    />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Starboy"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/dark_gray"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/roboto_black"
+                android:letterSpacing=".05"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvArtistName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chris Jordan"
+                    android:textSize="13sp"
+                    android:textColor="@color/gray"
+                    android:letterSpacing=".05"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:fontFamily="@font/roboto_regular"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"/>
+
+
+                <TextView
+                    android:id="@+id/tvAlbumName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="The Weekend"
+                    android:textSize="13sp"
+                    android:textColor="@color/gray"
+                    android:letterSpacing=".05"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:fontFamily="@font/roboto_regular"/>
+
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:src="@drawable/combined_shape"
+                    android:layout_marginRight="40dp"
+                    android:padding="10dp"/>
+
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle_shape"
+                    >
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/triangle"
+                        android:padding="4dp"
+                        android:layout_centerInParent="true"/>
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:src="@drawable/shape_heart"
+                    android:layout_marginLeft="40dp"
+                    android:padding="10dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

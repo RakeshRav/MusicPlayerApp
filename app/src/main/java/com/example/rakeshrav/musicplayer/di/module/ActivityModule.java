@@ -26,6 +26,9 @@ import com.example.rakeshrav.musicplayer.di.PerActivity;
 import com.example.rakeshrav.musicplayer.ui.main.MainMvpPresenter;
 import com.example.rakeshrav.musicplayer.ui.main.MainMvpView;
 import com.example.rakeshrav.musicplayer.ui.main.MainPresenter;
+import com.example.rakeshrav.musicplayer.ui.player.PlayerMvpPresenter;
+import com.example.rakeshrav.musicplayer.ui.player.PlayerPresenter;
+import com.example.rakeshrav.musicplayer.ui.player.PlayerView;
 import com.example.rakeshrav.musicplayer.ui.splash.SplashMvpPresenter;
 import com.example.rakeshrav.musicplayer.ui.splash.SplashPresenter;
 import com.example.rakeshrav.musicplayer.ui.splash.SplashView;
@@ -81,6 +84,12 @@ public class ActivityModule {
     @PerActivity
     SplashMvpPresenter<SplashView> providesSplashPresenter(SplashPresenter<SplashView> splashPresenter){
         return splashPresenter;
+    }
+
+    @Provides
+    @PerActivity
+    PlayerMvpPresenter<PlayerView> providesPlayerPresenter(PlayerPresenter<PlayerView> playerPresenter){
+        return playerPresenter;
     }
 
     @Provides

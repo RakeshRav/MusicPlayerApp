@@ -65,7 +65,7 @@
                         android:letterSpacing=".05"
                         android:gravity="center"
                         android:lineSpacingExtra="2dp"
-                        android:fontFamily="@font/roboto_medium"/>
+                        android:fontFamily="@font/roboto_regular"/>
 
                     <View
                         android:layout_width="1dp"
@@ -87,7 +87,7 @@
                         android:letterSpacing=".05"
                         android:gravity="center"
                         android:lineSpacingExtra="2dp"
-                        android:fontFamily="@font/roboto_medium"/>
+                        android:fontFamily="@font/roboto_regular"/>
 
                 </LinearLayout>
             </LinearLayout>
