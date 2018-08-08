@@ -6,4 +6,5 @@ import com.example.rakeshrav.musicplayer.ui.base.MvpPresenter;
 @PerActivity
 public interface SplashMvpPresenter<V extends SplashView> extends MvpPresenter<V> {
 
+    void getSongList(String term, int limit);
 }

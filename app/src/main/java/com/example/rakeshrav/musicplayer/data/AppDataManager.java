@@ -19,7 +19,7 @@ package com.example.rakeshrav.musicplayer.data;
 import android.content.Context;
 
 import com.example.rakeshrav.musicplayer.data.network.ApiHelper;
-import com.example.rakeshrav.musicplayer.data.network.model.forecastData.ForecastData;
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.ItunesData;
 import com.example.rakeshrav.musicplayer.data.prefs.PreferencesHelper;
 import com.example.rakeshrav.musicplayer.di.ApplicationContext;
 
@@ -60,18 +60,18 @@ public class AppDataManager implements DataManager {
         mPreferencesHelper.setCurrentUserName(userName);
     }
 
-    @Override
-    public ForecastData getForecastReport() {
-        return mPreferencesHelper.getForecastReport();
-    }
+//    @Override
+//    public ForecastData getForecastReport() {
+//        return mPreferencesHelper.getForecastReport();
+//    }
+//
+//    @Override
+//    public void setForecastReport(ForecastData forecastReport) {
+//        mPreferencesHelper.setForecastReport(forecastReport);
+//    }
 
     @Override
-    public void setForecastReport(ForecastData forecastReport) {
-        mPreferencesHelper.setForecastReport(forecastReport);
-    }
-
-    @Override
-    public void getWeatherForecastWithDays(String ApiKey, String query, String days, Callback<ForecastData> callback) {
+    public void getSongsList(String searchTerm, String limit, Callback<ItunesData> callback) {
 
     }
 }

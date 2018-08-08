@@ -14,7 +14,8 @@
  */
 
 package com.example.rakeshrav.musicplayer.data.network;
-import com.example.rakeshrav.musicplayer.data.network.model.forecastData.ForecastData;
+
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.ItunesData;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -34,7 +35,8 @@ public class AppApiHelper implements ApiHelper {
 
 
     @Override
-    public void getWeatherForecastWithDays(String ApiKey, String query, String days, Callback<ForecastData> callback) {
+    public void getSongsList(String searchTerm, String limit, Callback<ItunesData> callback) {
+
     }
 }
 

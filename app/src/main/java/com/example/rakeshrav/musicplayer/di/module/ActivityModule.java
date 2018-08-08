@@ -26,9 +26,6 @@ import com.example.rakeshrav.musicplayer.di.PerActivity;
 import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouriteMvpPresenter;
 import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouritePresenter;
 import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouriteView;
-import com.example.rakeshrav.musicplayer.ui.main.MainMvpPresenter;
-import com.example.rakeshrav.musicplayer.ui.main.MainMvpView;
-import com.example.rakeshrav.musicplayer.ui.main.MainPresenter;
 import com.example.rakeshrav.musicplayer.ui.player.PlayerMvpPresenter;
 import com.example.rakeshrav.musicplayer.ui.player.PlayerPresenter;
 import com.example.rakeshrav.musicplayer.ui.player.PlayerView;
@@ -75,12 +72,6 @@ public class ActivityModule {
     @Singleton
     ApiHelper provideApiHelper(AppApiHelper appApiHelper) {
         return appApiHelper;
-    }
-
-    @Provides
-    @PerActivity
-    MainMvpPresenter<MainMvpView> provideMainPresenter(MainPresenter<MainMvpView> mainPresenter){
-        return mainPresenter;
     }
 
     @Provides

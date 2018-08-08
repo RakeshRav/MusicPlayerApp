@@ -91,6 +91,8 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
         calculateListSize();
         setUp();
+
+        mPresenter.getSongList("",1);
     }
 
     private void calculateListSize() {
@@ -123,8 +125,8 @@ public class SplashActivity extends BaseActivity implements SplashView {
             }
         }, 2000);
 
-        pagerAdapter = new SearchResultsPagerAdapter(getSupportFragmentManager());
-        viewPagerItems.setAdapter(pagerAdapter);
+                pagerAdapter = new SearchResultsPagerAdapter(getSupportFragmentManager());
+                viewPagerItems.setAdapter(pagerAdapter);
     }
 
     @OnClick(R.id.cvSearchSplash)

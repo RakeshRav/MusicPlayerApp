@@ -18,7 +18,7 @@ package com.example.rakeshrav.musicplayer.data.prefs;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.rakeshrav.musicplayer.data.network.model.forecastData.ForecastData;
+
 import com.example.rakeshrav.musicplayer.di.ApplicationContext;
 import com.example.rakeshrav.musicplayer.di.PreferenceInfo;
 import com.google.gson.Gson;
@@ -57,28 +57,28 @@ public class AppPreferencesHelper implements PreferencesHelper {
         mPrefs.edit().putString(PREF_KEY_CURRENT_USER_NAME, userName).apply();
     }
 
-    @Override
-    public ForecastData getForecastReport() {
-        String gson = mPrefs.getString(PREF_KEY_FORECAST_REPORT, null);
-        if (gson == null) {
-            return null;
-        } else {
-            try {
-                return GSON.fromJson(gson, ForecastData.class);
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Object storaged with key "
-                        + PREF_KEY_FORECAST_REPORT + " is instanceof other class");
-            }
-        }
-    }
-
-    @Override
-    public void setForecastReport(ForecastData object) {
-        if (object == null) {
-            throw new IllegalArgumentException("object is null");
-        }
-
-        mPrefs.edit().putString(PREF_KEY_FORECAST_REPORT, GSON.toJson(object)).apply();
-    }
+//    @Override
+//    public ForecastData getForecastReport() {
+//        String gson = mPrefs.getString(PREF_KEY_FORECAST_REPORT, null);
+//        if (gson == null) {
+//            return null;
+//        } else {
+//            try {
+//                return GSON.fromJson(gson, ForecastData.class);
+//            } catch (Exception e) {
+//                throw new IllegalArgumentException("Object storaged with key "
+//                        + PREF_KEY_FORECAST_REPORT + " is instanceof other class");
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void setForecastReport(ForecastData object) {
+//        if (object == null) {
+//            throw new IllegalArgumentException("object is null");
+//        }
+//
+//        mPrefs.edit().putString(PREF_KEY_FORECAST_REPORT, GSON.toJson(object)).apply();
+//    }
 
 }

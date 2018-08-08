@@ -15,7 +15,7 @@
 
 package com.example.rakeshrav.musicplayer.data.network;
 
-import com.example.rakeshrav.musicplayer.data.network.model.forecastData.ForecastData;
+import com.example.rakeshrav.musicplayer.data.network.model.itunesData.ItunesData;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -27,8 +27,8 @@ import retrofit.http.Query;
 
 public interface ApiHelper {
 
-    @GET("/forecast.json")
-    void getWeatherForecastWithDays(@Query("key") String ApiKey,
-                                    @Query("q") String query,
-                                    @Query("days") String days, Callback<ForecastData> callback);
+    @GET("/search")
+    void getSongsList(@Query("term") String searchTerm,
+                                    @Query("limit") String limit,
+                                    Callback<ItunesData> callback);
 }

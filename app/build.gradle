@@ -16,12 +16,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"https://api.apixu.com/v1\"")
-            buildConfigField("String", "API_KEY", "\"5b7452a65caf4eb69e6172419182007\"")
+            buildConfigField("String", "BASE_URL", "\"http://itunes.apple.com\"")
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://api.apixu.com/v1\"")
-            buildConfigField("String", "API_KEY", "\"5b7452a65caf4eb69e6172419182007\"")
+            buildConfigField("String", "BASE_URL", "\"http://itunes.apple.com\"")
         }
     }
 }

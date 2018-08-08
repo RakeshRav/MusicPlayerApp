@@ -1,6 +1,7 @@
 package com.example.rakeshrav.musicplayer.ui.splash;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -41,7 +42,12 @@ public class FragmentSearchResult extends Fragment {
 
         unbinder = ButterKnife.bind(this, rootView);
 
-        setViewInLL();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setViewInLL();
+            }
+        },500);
         return rootView;
     }
 

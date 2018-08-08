@@ -16,8 +16,6 @@
 package com.example.rakeshrav.musicplayer.data.prefs;
 
 
-import com.example.rakeshrav.musicplayer.data.network.model.forecastData.ForecastData;
-
 /**
  * Created by rao on .
  */
@@ -29,8 +27,8 @@ public interface PreferencesHelper {
 
     void setCurrentUserName(String userName);
 
-    ForecastData getForecastReport();
-
-    void setForecastReport(ForecastData forecastReport);
+//    ForecastData getForecastReport();
+//
+//    void setForecastReport(ForecastData forecastReport);
 
 }
