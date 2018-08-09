@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -24,6 +26,7 @@ import com.example.rakeshrav.musicplayer.R;
 import com.example.rakeshrav.musicplayer.data.network.model.itunesData.ItunesData;
 import com.example.rakeshrav.musicplayer.data.network.model.itunesData.Result;
 import com.example.rakeshrav.musicplayer.ui.base.BaseActivity;
+import com.example.rakeshrav.musicplayer.ui.favouriteList.FavouriteActivity;
 import com.example.rakeshrav.musicplayer.utility.ScreenUtils;
 import com.example.rakeshrav.musicplayer.utility.ViewUtils;
 
@@ -71,6 +74,10 @@ public class SplashActivity extends BaseActivity implements SplashView {
     int numberItemToFit = 0;
     int currentIndicator = 0;
     int prevIndicator = 0;
+    @BindView(R.id.tvPlaceholder)
+    TextView tvPlaceholder;
+    @BindView(R.id.llPlaceHolder)
+    LinearLayout llPlaceHolder;
     private SearchResultsPagerAdapter pagerAdapter;
     private int sizeToolbar = 60;
     private int sizeSearch = 60;
@@ -99,7 +106,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
         calculateListSize();
         setUp();
 
-        mPresenter.getSongList("We don't talk", "");
+//        mPresenter.getSongList("", "");
     }
 
     private void calculateListSize() {
@@ -131,6 +138,25 @@ public class SplashActivity extends BaseActivity implements SplashView {
                 cvSearchSplash.startAnimation(animation);
             }
         }, 2000);
+
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d(TAG, "search text : " + editable.toString());
+                mPresenter.getSongList(editable.toString(), "");
+            }
+        });
     }
 
     @OnClick(R.id.cvSearchSplash)
@@ -173,7 +199,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
         if (itunesData.getResultCount() > 0) {
 
-            tvSongsCount.setText("  "+String.valueOf(itunesData.getResultCount()));
+            tvSongsCount.setText("  " + String.valueOf(itunesData.getResultCount()));
 
             int pages = itunesData.getResultCount() / numberItemToFit;
 
@@ -185,8 +211,11 @@ public class SplashActivity extends BaseActivity implements SplashView {
             makeBottomBar(pages);
 
             viewPagerItems.setVisibility(View.VISIBLE);
+            llIndicators.setVisibility(View.VISIBLE);
+            llPlaceHolder.setVisibility(View.INVISIBLE);
             viewPagerItems.setOffscreenPageLimit(pages);
             pagerAdapter = new SearchResultsPagerAdapter(getSupportFragmentManager(), pages, itunesData);
+
             viewPagerItems.setAdapter(pagerAdapter);
 
             viewPagerItems.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -208,6 +237,11 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
         } else {
             Snackbar.make(llMainActivity, "No Results found!", 2000);
+            tvSongsCount.setText("  0");
+            llPlaceHolder.setVisibility(View.VISIBLE);
+            tvPlaceholder.setText("No Results found, Taste some other search");
+            viewPagerItems.setVisibility(View.GONE);
+            llIndicators.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -244,16 +278,22 @@ public class SplashActivity extends BaseActivity implements SplashView {
         imageViewCurr.setImageResource(R.drawable.rectangle_4);
     }
 
+    @OnClick(R.id.ivFav)
+    public void onViewClickedFAV() {
+        Intent intent = FavouriteActivity.getStartIntent(this);
+        startActivity(intent);
+    }
+
     private class SearchResultsPagerAdapter extends FragmentStatePagerAdapter {
 
         private int pages;
         private ItunesData itunesData;
         private int start = 0;
 
-        public SearchResultsPagerAdapter(FragmentManager fm, int pages, ItunesData itunesData) {
+        SearchResultsPagerAdapter(FragmentManager fm, int pages, ItunesData itunesData) {
             super(fm);
             this.pages = pages;
-            this.itunesData  = itunesData;
+            this.itunesData = itunesData;
         }
 
         @Override
@@ -269,9 +309,9 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
             List<Result> itunesResult = itunesData.getResults();
 
-            int end = numberItemToFit+start;
+            int end = numberItemToFit + start;
 
-            if (end > itunesResult.size()){
+            if (end > itunesResult.size()) {
                 end = itunesResult.size();
             }
 

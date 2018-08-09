@@ -45,13 +45,7 @@ public class FragmentSearchResult extends Fragment {
         rootView = inflater.inflate(R.layout.frag_search_items, container, false);
 
         unbinder = ButterKnife.bind(this, rootView);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setViewInLL();
-            }
-        }, 500);
+        setViewInLL();
         return rootView;
     }
 

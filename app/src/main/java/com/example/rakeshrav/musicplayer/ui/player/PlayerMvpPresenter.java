@@ -8,4 +8,5 @@ import com.example.rakeshrav.musicplayer.ui.base.MvpPresenter;
 public interface PlayerMvpPresenter<V extends PlayerView> extends MvpPresenter<V> {
     void setFavSongs(Result result);
     void removeFavSongs(Result result);
+    boolean checkSongIsFav(Result result);
 }

@@ -22,10 +22,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.player.PlayerActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
         </activity>
+
         <activity android:name=".ui.favouriteList.FavouriteActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
         </activity>
     </application>
 

@@ -43,4 +43,27 @@ public class FavouritePresenter<V extends FavouriteView> extends BasePresenter<V
             }
         }
     }
+
+
+    @Override
+    public void removeFavSongs(Result result) {
+        ItunesData itunesData = getDataManager().getFavsResult();
+
+        if  (itunesData == null){
+            return;
+        }else {
+            if (itunesData.getResults() == null){
+                return;
+            }else {
+                for (int i = 0; i<itunesData.getResults().size(); i++){
+                    if (itunesData.getResults().get(i).getTrackId().equals(result.getTrackId())) {
+                        itunesData.getResults().remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        getDataManager().setFavsResult(itunesData);
+    }
 }

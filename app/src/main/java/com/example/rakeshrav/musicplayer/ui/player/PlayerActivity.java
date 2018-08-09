@@ -73,6 +73,8 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
         return intent;
     }
 
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,21 +87,48 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
 
         mPresenter.onAttach(this);
 
+        mMediaPlayer = new MediaPlayer();
+
+        intent = getIntent();
+
         setUp();
+
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Log.d(TAG,"New Intent Received");
+
+        if (mMediaPlayer.isPlaying()){
+            mMediaPlayer.stop();
+            mMediaPlayer.reset();
+        }
+
+        this.intent = intent;
+        setUp();
+    }
 
     Result result;
     @Override
     protected void setUp() {
 
-        Intent intent = getIntent();
-
         String resultJson = intent.getStringExtra(RESULT);
 
         result = new Gson().fromJson(resultJson, Result.class);
 
-        Picasso.with(this).load(result.getArtworkUrl100()).fit().into(ivCover);
+        if (result.getArtworkUrl100().contains("jpg") || result.getArtworkUrl100().contains("jpeg")){
+
+            if (result.getArtworkUrl100().contains("100x100")){
+                String url = result.getArtworkUrl100().replace("100x100","300x300");
+                Picasso.with(this).load(url).fit().into(ivCover);
+            }else {
+                Picasso.with(this).load(result.getArtworkUrl100()).fit().into(ivCover);
+            }
+        }else {
+            Picasso.with(this).load(result.getArtworkUrl100()).fit().into(ivCover);
+        }
 
         tvAlbumName.setText(result.getCollectionName());
         tvArtistName.setText(result.getArtistName());
@@ -114,10 +143,27 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
         setupMediaPlayer();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
+        boolean isFAv = mPresenter.checkSongIsFav(result);
+
+        if (isFAv){
+            ivFavourite.setImageResource(R.drawable.shape_heart_red);
+        }else {
+            ivFavourite.setImageResource(R.drawable.shape_heart);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
     private void setupMediaPlayer() {
         Log.d(TAG, "Setting Media Player");
 
-        mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         try {
@@ -267,5 +313,23 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
         }
         mHandler.removeCallbacks(mUpdateTimeTask);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if (mMediaPlayer != null){
+//            mMediaPlayer.start();
+//        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        if (mMediaPlayer != null){
+//            if (mMediaPlayer.isPlaying()){
+//                mMediaPlayer.pause();
+//            }
+//        }
     }
 }

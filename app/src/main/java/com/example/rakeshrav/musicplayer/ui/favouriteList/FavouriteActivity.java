@@ -45,6 +45,10 @@ public class FavouriteActivity extends BaseActivity implements FavouriteView {
     @BindView(R.id.rvFavourites)
     RecyclerView rvFavourites;
     ArrayList<Result> results;
+    @BindView(R.id.tvPlaceholder)
+    TextView tvPlaceholder;
+    @BindView(R.id.llPlaceHolder)
+    LinearLayout llPlaceHolder;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, FavouriteActivity.class);
@@ -69,11 +73,18 @@ public class FavouriteActivity extends BaseActivity implements FavouriteView {
     @Override
     protected void setUp() {
         ivFav.setVisibility(View.GONE);
+        tvTitle.setText("Favourites");
+
         results = (ArrayList<Result>) mPresenter.getFavResults();
 
         if (results != null && !results.isEmpty()) {
+            llPlaceHolder.setVisibility(View.INVISIBLE);
+            rvFavourites.setVisibility(View.VISIBLE);
             tvSongsCount.setText("  " + results.size());
             setUpRecyclerView();
+        }else {
+            llPlaceHolder.setVisibility(View.VISIBLE);
+            rvFavourites.setVisibility(View.GONE);
         }
     }
 
@@ -89,7 +100,16 @@ public class FavouriteActivity extends BaseActivity implements FavouriteView {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
                 Log.d(TAG, "Swiped.....");
 
-                testAdapter.remove(viewHolder.getAdapterPosition());
+                int index = viewHolder.getAdapterPosition();
+                mPresenter.removeFavSongs(results.get(index));
+                testAdapter.remove(index);
+
+                tvSongsCount.setText("  " + testAdapter.getItemCount());
+
+                if (testAdapter.getItemCount() == 0){
+                    llPlaceHolder.setVisibility(View.VISIBLE);
+                    rvFavourites.setVisibility(View.GONE);
+                }
 
             }
         });
@@ -103,7 +123,6 @@ public class FavouriteActivity extends BaseActivity implements FavouriteView {
                 finish();
                 break;
             case R.id.tvTitle:
-                tvTitle.setText("Favourites");
                 break;
             case R.id.ivFav:
                 break;

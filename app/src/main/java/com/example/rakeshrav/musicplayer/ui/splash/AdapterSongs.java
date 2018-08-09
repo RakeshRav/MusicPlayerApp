@@ -38,7 +38,7 @@ public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.SongsSearchV
     }
 
     @Override
-    public void onBindViewHolder(SongsSearchViewHolder holder, final int position) {
+    public void onBindViewHolder(final SongsSearchViewHolder holder, final int position) {
 
         holder.tvAlbumName.setText(results.get(position).getCollectionName());
         holder.tvArtistName.setText(results.get(position).getArtistName());
@@ -51,7 +51,7 @@ public class AdapterSongs extends RecyclerView.Adapter<AdapterSongs.SongsSearchV
             public void onClick(View view) {
                 Intent intent  = PlayerActivity.getStartIntent(context);
 
-                String json = new Gson().toJson(results.get(position));
+                String json = new Gson().toJson(results.get(holder.getAdapterPosition()));
                 intent.putExtra(PlayerActivity.RESULT, json);
                 context.startActivity(intent);
             }

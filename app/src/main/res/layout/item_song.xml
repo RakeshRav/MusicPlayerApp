@@ -89,11 +89,12 @@
                         android:id="@+id/tvArtistName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Chris Jordan"
+                        android:text="Chris "
                         android:textSize="13sp"
                         android:textColor="@color/gray"
                         android:letterSpacing=".05"
                         android:gravity="center"
+                        android:maxLength="30"
                         android:lineSpacingExtra="2dp"
                         android:fontFamily="@font/roboto_regular"/>
 
@@ -103,8 +104,8 @@
                         android:background="@color/gray"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"/>
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"/>
 
 
                     <TextView
@@ -114,6 +115,7 @@
                         android:text="We don't talk anymore"
                         android:textSize="13sp"
                         android:textColor="@color/gray"
+                        android:singleLine="true"
                         android:letterSpacing=".05"
                         android:gravity="center"
                         android:lineSpacingExtra="2dp"

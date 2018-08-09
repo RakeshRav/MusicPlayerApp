@@ -90,6 +90,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center">
 
                 <TextView
@@ -123,6 +125,7 @@
                     android:textColor="@color/gray"
                     android:letterSpacing=".05"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:lineSpacingExtra="2dp"
                     android:fontFamily="@font/roboto_regular"/>
 
