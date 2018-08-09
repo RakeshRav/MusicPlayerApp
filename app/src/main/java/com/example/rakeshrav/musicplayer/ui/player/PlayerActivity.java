@@ -140,8 +140,23 @@ public class PlayerActivity extends BaseActivity implements PlayerView {
             ivFavourite.setImageResource(R.drawable.shape_heart);
         }
 
-        setupMediaPlayer();
+        setmMediaPlayerWithIntenet();
     }
+
+    private void setmMediaPlayerWithIntenet() {
+        if (isNetworkConnected()){
+            setupMediaPlayer();
+        }else {
+            showErrorDialog("No Internet Connection Available!", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismissErrDialog();
+                    setmMediaPlayerWithIntenet();
+                }
+            });
+        }
+    }
+
 
     @Override
     protected void onStart() {

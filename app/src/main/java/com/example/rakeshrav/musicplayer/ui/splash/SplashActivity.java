@@ -154,9 +154,24 @@ public class SplashActivity extends BaseActivity implements SplashView {
             @Override
             public void afterTextChanged(Editable editable) {
                 Log.d(TAG, "search text : " + editable.toString());
-                mPresenter.getSongList(editable.toString(), "");
+
+                searchForSongs(editable.toString());
             }
         });
+    }
+
+    private void searchForSongs(final String s) {
+        if (isNetworkConnected()){
+            mPresenter.getSongList(s, "");
+        }else {
+            showErrorDialog("No Internet Connection Available!", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismissErrDialog();
+                    searchForSongs(s);
+                }
+            });
+        }
     }
 
     @OnClick(R.id.cvSearchSplash)
